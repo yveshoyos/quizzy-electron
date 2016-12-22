@@ -1,0 +1,158 @@
+@import "./mixins.less";
+
+body, html {
+	padding: 0;
+	margin: 0;
+	background-color: #2a2d35;// #212121;
+    height: 100%;
+    color: #ddd;
+    font-family: -apple-system,"Helvetica Neue",Helvetica,"Segoe UI",Arial,sans-serif;
+}
+
+a {
+	color: #fff;
+}
+
+.form-control {
+	background-color: #484848;
+	border: 1px solid #616161;
+	color: #ddd;
+}
+
+.btn-default {
+	background-color: #484848;
+	border: 1px solid #616161;
+	color: #ddd;
+}
+
+.container-fluid {
+	height: 100%;
+	padding: 0;
+}
+
+.starting-screen {
+	width: 100%;
+	height: 100%;
+	.display-flex();
+	.flex-direction(column);
+
+	header {
+		width: 100%;
+		text-align: right;
+		padding: 10px;
+		font-size: 20px;
+	}
+
+	& > div {
+		flex: 1;
+		.display-flex();
+		.flex-direction(column);
+		.align-items(stretch);
+		.justify-content(center);
+
+		button {
+			padding: 20px;
+			width: 80%;
+			.align-self(center);
+		}
+
+		img {
+			width: 70%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 50px;
+		}
+	}
+}
+
+.preference-screen {
+	width: 100%;
+	height: 100%;
+
+	.btn-default.browse {
+		width: 150px;
+	}
+
+	[type=number].form-control {
+		width: 100px;
+	}
+
+	preferences {
+		width: 100%;
+		height: 100%;
+		.display-flex();
+		.flex-direction(column);
+	}
+
+	& > div {
+		flex: 1;
+	}
+
+	& form {
+		padding: 20px;
+		flex: 1;
+	}
+
+	h1 {
+		background-color: #212121;
+		padding: 20px;
+		margin: 0;
+	}
+
+	footer {
+		text-align: right;
+		background-color: #212121;
+		padding: 20px;
+	}
+}
+
+.devices-screen {
+	width: 100%;
+	height: 100%;
+	.display-flex();
+	.flex-direction(column);
+	.align-items(center);
+	.justify-content(center);
+
+	devices {
+		width: 100%;
+		.display-flex();
+		.flex-direction(row);
+		//.align-items(center);
+		.justify-content(space-around);
+
+		& > div {
+			.display-flex();
+			.flex-direction(column);
+			//.align-items(center);
+
+			svg {
+				flex: 1;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		}
+
+		svg {
+		    width: 50%;
+		    stroke: none;
+
+		    path, polygon {
+		        fill: #3b3e44;
+		        stroke: none;
+		    }
+		   
+		    &.active {
+		        path, polygon {
+		            fill: #eee;
+		        }
+		    }
+		}
+
+		.label {
+			padding: 40px;
+			text-align: center;
+			font-size: 30px;
+		}
+	}
+}

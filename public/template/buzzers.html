@@ -1,0 +1,27 @@
+<div class="starting-screen"  ng-show="$ctrl.screen == 'starting'">
+	<header>
+	  <a href="#" 
+	     ng-click="$ctrl.openPreferences()">
+	     <i class="fa fa-cog"></i>
+	  </a>
+	</header>
+	<div class="body">
+		<img src="../public/images/quizzy.png" />
+	  <button class="btn btn-success" ng-click="$ctrl.start()">Start buzzers</button>
+	</div>
+</div>
+
+<div class="buzzers" ng-show="$ctrl.screen == 'buzzers'">
+	<div class="vertical-align" 
+	     ng-repeat="(controllerIndex, buzzer) in $ctrl.buzzers">
+		<div class="buzzer" 
+		     ng-class="{ on: buzzer.on }" 
+		     ng-click="$ctrl.press(controllerIndex)"></div>
+	</div>
+</div>
+
+<div class="preference-screen" ng-show="$ctrl.screen == 'preferences'">
+	<preferences preferences="$ctrl.preferences" 
+	             show="$ctrl.screen == 'preferences'" 
+	             on-close="$ctrl.preferencesClose(preferences)"></preferences> 
+</div>

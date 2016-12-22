@@ -1,0 +1,57 @@
+<div class="step1 row vertical-align" ng-show="master.step == 1">
+	<div class="col-xs-12 center-text text-center">
+			<button class="btn btn-default btn-lg" 
+			        ng-click="master.setMode('theme')">Questions organisées par thème</button>
+			<button class="btn btn-default btn-lg" 
+			        ng-click="master.setMode('random')">Questions aléatoires</button>
+	</div>
+</div>
+
+<div class="teams row" ng-show="master.step > 1">
+	
+	<div class="team col-xs-3" ng-repeat="team in master.teams">
+		<section class="widget widget-xs widget-xs-{{team.id}}" ng-class="{ active: team.active, flash: team.flash }">
+			<div class="widget-inner">
+				<div class="chart-container">
+					<span class="sparkline-line-mini">
+						<img ng-src="images/iconmonstr-generation-{{team.id}}.svg" />	
+					</span>
+				</div>
+				<div class="info-container">
+					<h3 class="title">
+						<span class="figure">{{team.name}}</span>
+						<span class="note">{{team.points}} points</span></h3>
+				</div>
+			</div>
+		</section>
+	</div>
+
+</div>
+
+<div class="step3" ng-show="master.step == 3">
+	<div class="question">
+		<h2>Theme : {{master.question.category}}</h2>
+		
+		<div class="" ng-show="master.question.type == 'blind'">
+			<div class="progress">
+				<div class="progress-bar"></div>
+			</div>
+		</div>
+
+		<div calss="row">
+			<div class="col-xs-3 text-center">
+				<button class="btn btn-default btn-point btn-danger" ng-click="master.setPoints(-1)">-1</button>
+			</div>
+			<div class="col-xs-3 text-center">
+				<button class="btn btn-default btn-point btn-warning" ng-click="master.setPoints(0)">0</button>
+			</div>
+			<div class="col-xs-3 text-center">
+				<button class="btn btn-default btn-point btn-primary" ng-click="master.setPoints(1)">+1</button>
+			</div>
+			<div class="col-xs-3 text-center">
+				<button class="btn btn-default btn-point btn-success" ng-click="master.setPoints(2)">+2</button>
+			</div> 
+		</div>
+
+	</div>
+</div>

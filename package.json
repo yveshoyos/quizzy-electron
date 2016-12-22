@@ -1,0 +1,34 @@
+{
+  "name": "quizzy-game",
+  "description": "Desktop application game for quizzy",
+  "version": "0.1.0",
+  "author": "Vincent Dieltiens",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vincentdieltiens/quizzy-game"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "howler": "^2.0.2",
+    "path": "^0.12.7",
+    "quizzy": "https://github.com/vincentdieltiens/quizzy.git#electron",
+    "url": "^0.11.0"
+  },
+  "scripts": {
+    "game": "electron ./game",
+    "master": "electron ./master",
+    "buzzers": "electron ./buzzers"
+  },
+  "engine": [
+    "node >=6.9.0"
+  ],
+  "main": "./build/electron.js",
+  "devDependencies": {
+    "@types/electron": "^1.4.27",
+    "@types/node": "^6.0.41",
+    "electron": "^1.4.8",
+    "electron-rebuild": "^1.4.0"
+  }
+}

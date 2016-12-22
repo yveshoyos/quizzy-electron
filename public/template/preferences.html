@@ -1,0 +1,79 @@
+
+	<h1>Preferences</h1>
+
+
+	<form>
+		<h2>Game</h2>
+		<div class="form-group">
+			<label for="questionsDirectoryBrowse">Questions directory</label>
+			<div class="form-group">
+				<button class="btn btn-default browse" 
+				        id="questionsDirectoryBrowse" 
+				        ng-click="preferences.browseQuestionsDirectory()">Browse...</button>
+				{{preferences.preferences.game.questions_directory}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="websocketPort">Websocket game port</label>
+			<div class="form-group">
+				<input type="number" 
+				       ng-model="preferences.preferences.game.port" 
+				       class="form-control" />
+			</div>
+		</div>
+		
+		<h2>Master</h2>
+
+		<div>
+			<label class="radio-inline">
+				<input type="radio" 
+				       ng-model="preferences.master.type" 
+				       value="websocket"> Websocket
+			</label>
+		</div>
+		<div class="form-group">
+			<label>Websocket game port</label>
+			<div class="form-group">
+				<input type="number" 
+				       ng-model="preferences.preferences.master.port" 
+				       class="form-control" />
+			</div>
+		</div>
+
+
+		<h2>Buzzers</h2>
+
+		<div>
+			<label class="radio-inline">
+				<input type="radio" 
+				       ng-model="preferences.preferences.buzzer.type" 
+				       value="teensy"> teensy (HID)
+			</label>
+			<label class="radio-inline">
+				<input type="radio" 
+				       ng-model="preferences.preferences.buzzer.type" 
+				       value="ps2"> Ps2
+			</label>
+			<label class="radio-inline">
+				<input type="radio" 
+				       ng-model="preferences.preferences.buzzer.type" 
+				       value="websocket"> Websocket
+			</label>
+		</div>
+
+		<div class="form-group" ng-show="preferences.preferences.buzzer.type == 'websocket'">
+			<label>Websocket buzzers port</label>
+			<div class="form-group">
+				<input type="number" 
+				       ng-model="preferences.preferences.buzzer.port" 
+				       class="form-control" />
+			</div>
+		</div>
+
+	</form>
+
+	<footer>
+		<button class="btn btn-default" ng-click="preferences.cancel()">Annuler</button>
+		<button class="btn btn-success" ng-click="preferences.save()">Valider</button>
+	</footer>
