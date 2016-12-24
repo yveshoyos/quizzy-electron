@@ -39,12 +39,14 @@ angular.module('sounds', [])
 					timeout: setTimeout(function() {
 						sound.ids[id].howlId = sound.howl.play();
 						sound.ids[id].timeout = null;
+						sound.howl.volume(1, sound.howl.id);
 					}, delay)
 				};
 			} else {
 				sound.ids[id] = {
 					howlId: sound.howl.play()
 				};
+				sound.howl.volume(1, sound.howl.id);
 			}
 			return id;
 		},

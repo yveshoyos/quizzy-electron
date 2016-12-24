@@ -11,6 +11,7 @@
     "angular": "^1.5.8",
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
+    "fs-extra": "^1.0.0",
     "howler": "^2.0.2",
     "path": "^0.12.7",
     "quizzy": "https://github.com/vincentdieltiens/quizzy.git#electron",

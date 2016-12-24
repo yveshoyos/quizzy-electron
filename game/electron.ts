@@ -23,6 +23,10 @@ function createWindow () {
 		slashes: true
 	}))
 
+	mainWindow.homeDirectory = app.getPath('home');
+
+	mainWindow.setPosition(0, 0);
+
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools()
 
