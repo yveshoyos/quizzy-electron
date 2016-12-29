@@ -38,7 +38,6 @@
 			this.preferences = {
 				game: {
 					port: 8081,
-					//questions_directory: path.normalize(__dirname + '/../questions')
 					questions_directory: defaultQuestionsDir
 				},
 				master: {
@@ -59,8 +58,8 @@
 			this.currentQuestionIndex = -1;
 
 			ui.sounds = new Sounds(true);
-			ui.sounds.add('actors', __dirname + '/../sounds/Cinema_Sins_Background_Song.mp3');
-			ui.sounds.add('buzz', __dirname + '/../sounds/buzz.mp3');
+			ui.sounds.add('actors', __dirname + '/sounds/Cinema_Sins_Background_Song.mp3');
+			ui.sounds.add('buzz', __dirname + '/sounds/buzz.mp3');
 
 			var howls = [];
 
@@ -318,7 +317,7 @@
 					});
 				} else { //deaf 
 					howls[index] = new Howl({
-						src:  __dirname + '/../sounds/image_background_0'+(Math.floor(Math.random() * 5) + 1)+'.mp3',
+						src:  __dirname + '/sounds/image_background_0'+(Math.floor(Math.random() * 5) + 1)+'.mp3',
 						preload: true,
 						html5: true,
 						onload: () => {
@@ -409,7 +408,7 @@
 
 
 		}],
-		templateUrl: '../public/template/game.html'
+		templateUrl: 'public/template/game.html'
 	})
 	.component('progressBar', {
 		bindings: {
@@ -487,7 +486,7 @@
 				});
 			}
 		}],
-		templateUrl: '../public/template/preferences.html'
+		templateUrl: 'public/template/preferences.html'
 	})
 	.component('devices', {
 		bindings: {
@@ -503,7 +502,7 @@
 			}
 			
 		}],
-		templateUrl: '../public/template/devices.html'
+		templateUrl: 'public/template/devices.html'
 	});
 
 })(angular)

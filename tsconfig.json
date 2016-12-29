@@ -14,7 +14,7 @@
         "baseUrl": ".",
          "outDir": "build"
     },
-
+   
     "compileOnSave": true,
     "exclude": [
         "node_modules",
