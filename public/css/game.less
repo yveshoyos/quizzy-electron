@@ -80,6 +80,7 @@ preferences .btn-default  {
 
 		button {
 			padding: 20px;
+			margin: 20px;
 			width: 80%;
 			.align-self(center);
 		}
@@ -246,6 +247,11 @@ preferences .btn-default  {
 		.display-flex();
 		.flex-direction(column);
 
+		img.img-responsive {
+			max-height: calc(~"100vh - 330px");
+			margin: 0 auto;
+		}
+
 		&.master {
 			img {
 				width: calc(~"100vh - 370px - 70px");
@@ -364,33 +370,59 @@ preferences .btn-default  {
 	}
 
 	.widget-xs-a.active .widget-inner {
-	    background: #cc3e4a;
+	    background: @red;
 	}
 	.widget-xs-a.active .info-container {
-	    background: #d9534f;
+	    background: @red-light;
 	}
 
 	.widget-xs-b.active .widget-inner {
-	    background: #5cb85c;
+	    background: @green;
 	}
 	.widget-xs-b.active .info-container {
-	    background: #74d674;
+	    background: @green-light;
 	}
 
 	.widget-xs-c.active .widget-inner {
-	    background: #179de2;
+	    background: @blue;
 	}
 	.widget-xs-c.active .info-container {
-	    background: #58bbee;
+	    background: @blue-light;
 	}
 
 	.widget-xs-d.active .widget-inner {
-	    background: #5c2b70;
+	    background: @yellow;
 	}
 	.widget-xs-d.active .info-container {
-	    background: #8a40a7;
+	    background: @yellow-light;
+	}
+
+	.widget-xs-e.active .widget-inner {
+	    background: @grey;
+	    .info-container .title .note,
+	    .info-container .title .figure {
+	    	color: #555;
+	    }
+	}
+	.widget-xs-e.active .info-container {
+	    background: @grey-light;
+	    .info-container .title .note,
+	    .info-container .title .figure {
+	    	color: #555;
+	    }
 	}
 }
+
+@red: #cc3e4a;
+@red-light: #d9534f;
+@green: #5cb85c;
+@green-light: #74d674;
+@blue: #179de2;
+@blue-light: #58bbee;
+@yellow: #e4c61e;
+@yellow-light: #f3db56;
+@grey: #eee;
+@grey-light: #fff;
 
 .scores-screen {
 	width: 100%;
@@ -420,19 +452,23 @@ preferences .btn-default  {
 	}
 
 	& > div.a {
-		background: #cc3e4a;
+		background: @red;
 	}
 
 	& > div.b {
-		background: #5cb85c;
+		background: @green;
 	}
 	
 	& > div.c {
-		background: #179de2;
+		background: @blue;
 	}
 	
 	& > div.d {
-		background: #5c2b70;
+		background: @yellow;
+	}
+
+	& > div.e {
+		background: @grey;
 	}
 }
 

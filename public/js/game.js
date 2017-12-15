@@ -93,10 +93,15 @@
 				this.screen = 'starting';
 			}
 
-			this.initStartGame = function() {
+			this.canBeContinued = function() {
+				var file = path.join(this.preferences.game.questions_directory, 'game.json');
+				return fs.existsSync(file);
+			}
+
+			this.initStartGame = function(startOrContinue) {
 				try {
 					if (this.isGame()) {
-						start(this.preferences);
+						start(this.preferences, startOrContinue);
 					}
 
 					this.receiveScreen('devices', false);
@@ -292,12 +297,13 @@
 				})
 			}
 
-			this.receiveQuestions = function(questions) {
+			this.receiveQuestions = function(data) {
 				this.sounds.fade('actors', 1000);
-				this.questions = questions;
+				this.questions = data.questions;
+				this.currentQuestionIndex = data.startQuestionIndex;
 
-				if (this.isGame() && this.currentQuestionIndex == -1) {
-					this.startQuestion(0);
+				if (this.isGame()) {
+					this.startQuestion((this.currentQuestionIndex == -1) ? 0 : this.currentQuestionIndex);
 				}
 			}
 

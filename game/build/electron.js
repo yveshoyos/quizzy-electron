@@ -14,7 +14,6 @@ function createWindow() {
     }));
     mainWindow.homeDirectory = app.getPath('home');
     mainWindow.setPosition(0, 0);
-    mainWindow.webContents.openDevTools();
     mainWindow.on('closed', function () {
         mainWindow = null;
     });

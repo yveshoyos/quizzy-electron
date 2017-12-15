@@ -9,9 +9,13 @@
 		</a>
 	</header>
 	<div class="body">
-		<img src="public/images/quizzy.png" />
+		<img src="public/images/quizzy-{{ui.type}}.png" />
 		<button class="btn btn-success" 
-		        ng-click="ui.initStartGame()">Start <span ng-bind="ui.type"></span>
+		        ng-click="ui.initStartGame('start')">Start <span ng-bind="ui.type"></span>
+		</button>
+		<button class="btn btn-success" 
+		        ng-show="ui.canBeContinued() && ui.isGame()"
+		        ng-click="ui.initStartGame('continue')">Continue <span ng-bind="ui.type"></span>
 		</button>
 	</div>
 
@@ -31,18 +35,19 @@
 <div class="mode-select-screen" ng-show="ui.screen == 'mode-select'">
 	<div ng-click="ui.setMode('theme')" 
 		 ng-class="{ flash: ui.mode == 'theme' }">
-		Questions organisées par thème
+		Questions by themes
 	</div>
 	<div ng-click="ui.setMode('random')" 
 	     ng-class="{ flash: ui.mode == 'random' } ">
-		Questions aléatoires
+		Question in random order
 	</div>
 </div>
 
 <div class="screen" ng-show="ui.screen == 'team-activation' || ui.screen == 'questions'">
 	<div class="teams">
 		<div class="team" 
-		     ng-repeat="team in ui.teams">
+		     ng-repeat="team in ui.teams"
+		     ng-show="ui.screen == 'team-activation' || team.active">
 			<section class="widget widget-xs widget-xs-{{team.id}}" 
 			         ng-class="{ active: team.lightOn, flash: team.flash, inactive: !team.active }"
 			         ng-click="ui.changeTeamName(team, $index)">
@@ -64,7 +69,7 @@
 
 	<div class="team-activation-screen" ng-show="ui.screen == 'team-activation'">
 		<h1 class="action" ng-show="ui.isGame()">
-			Appuyez sur l'un des boutons de votre buzzer pour l'activer
+			Push on your buzzer to activate it
 		</h1>
 		<button class="btn btn-success" 
 		        ng-show="ui.isMaster()" 
@@ -76,7 +81,7 @@
 
 	<div class="questions-screen" ng-show="ui.screen == 'questions'">
 		<div class="question" ng-show="ui.isGame()">
-			<h3>Thème : {{ui.question.category}}</h3>
+			<h3>Theme : {{ui.question.category}}</h3>
 			<div class="result" ng-show="ui.question.type == 'blind'">
 				<progress-bar controller="ui.barCtrl"></progress-bar>
 			</div>
@@ -88,7 +93,7 @@
 		<div class="question master" ng-show="ui.isMaster()">
 			<div class="row result">
 				<div class="col-xs-6">
-					<h3>Thème : {{ui.question.category}}</h3>
+					<h3>Theme : {{ui.question.category}} ({{ui.currentQuestionIndex+1}}/{{ui.questions.length}})</h3>
 					<div class="form-horizontal">
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="">Artist :</label>
@@ -110,7 +115,7 @@
 					</div>
 				</div>
 				<div class="col-xs-6">
-					<h3>Thème : {{ui.nextQuestion.category}}</h3>
+					<h3>Theme : {{ui.nextQuestion.category}}</h3>
 					<div class="form-horizontal">
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="">Artist :</label>

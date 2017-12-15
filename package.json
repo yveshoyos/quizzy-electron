@@ -22,8 +22,8 @@
     "master": "electron ./master",
     "buzzers": "electron ./buzzers",
     "rebuild": "./node_modules/.bin/electron-rebuild",
-    "package-game-mac": "electron-packager ./game quizzy-game --platform=darwin --arch=x64 --icon=icon.icns --overwrite",
-    "package-master-mac": "electron-packager ./master quizzy-master --platform=darwin --arch=x64 --icon=icon.icns --overwrite"
+    "package-game-mac": "electron-packager ./game quizzy-game --platform=darwin --arch=x64 --icon=game/icon.icns --overwrite",
+    "package-master-mac": "electron-packager ./master quizzy-master --platform=darwin --arch=x64 --icon=master/icon.icns --overwrite"
   },
   "engine": [
     "node >=6.9.0"
