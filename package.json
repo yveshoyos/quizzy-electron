@@ -10,17 +10,22 @@
   "dependencies": {
     "angular": "^1.5.8",
     "bootstrap": "^3.3.7",
+    "electron": "^1.7.10",
     "font-awesome": "^4.7.0",
     "fs-extra": "^1.0.0",
     "howler": "^2.0.2",
+    "inherits": "^2.0.3",
+    "ip": "^1.1.5",
+    "node": "^9.3.0",
     "path": "^0.12.7",
-    "quizzy": "https://github.com/vincentdieltiens/quizzy.git#electron",
+    "quizzy": "https://github.com/vincentdieltiens/quizzy.git#es6",
+    "smalltalk": "^2.1.3",
     "url": "^0.11.0"
   },
   "scripts": {
-    "game": "electron ./game",
-    "master": "electron ./master",
-    "buzzers": "electron ./buzzers",
+    "game": "./node_modules/.bin/electron ./game",
+    "master": "./node_modules/.bin/electron ./master",
+    "buzzers": "./node_modules/.bin/electron ./buzzers",
     "rebuild": "./node_modules/.bin/electron-rebuild",
     "package-game-mac": "electron-packager ./game quizzy-game --platform=darwin --arch=x64 --icon=game/icon.icns --overwrite",
     "package-master-mac": "electron-packager ./master quizzy-master --platform=darwin --arch=x64 --icon=master/icon.icns --overwrite"
@@ -28,11 +33,15 @@
   "engine": [
     "node >=6.9.0"
   ],
-  "main": "./build/electron.js",
   "devDependencies": {
-    "@types/electron": "^1.4.27",
-    "@types/node": "^6.0.41",
-    "electron": "^1.4.8",
-    "electron-rebuild": "^1.4.0"
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "electron-rebuild": "^1.6.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-cli": "^1.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sourcemaps": "^2.6.1"
   }
 }

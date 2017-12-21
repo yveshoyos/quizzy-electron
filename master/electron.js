@@ -1,6 +1,6 @@
-import * as electron from 'electron';
-import * as path from 'path';
-import * as url from 'url';
+import electron from 'electron';
+import path from 'path';
+import url from 'url';
 
 //const electron = require('electron')
 // Module to control application life.
@@ -24,7 +24,7 @@ function createWindow () {
 	}))
 
 	// Open the DevTools.
-	//mainWindow.webContents.openDevTools()
+	mainWindow.webContents.openDevTools()
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function () {

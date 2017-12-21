@@ -28,15 +28,28 @@
 		<div>
 			<label class="radio-inline">
 				<input type="radio" 
-				       ng-model="preferences.master.type" 
-				       value="websocket"> Websocket
+				       ng-model="preferences.preferences.master.type" 
+				       value="websocket"> App or Websocket
 			</label>
+			<!--<label class="radio-inline">
+				<input type="radio" 
+				       ng-model="preferences.preferences.master.type" 
+				       value="web"> Web
+			</label>-->
 		</div>
 		<div class="form-group">
 			<label>Websocket game port</label>
 			<div class="form-group">
 				<input type="number" 
 				       ng-model="preferences.preferences.master.port" 
+				       class="form-control" />
+			</div>
+		</div>
+		<div class="form-group" ng-show="preferences.preferences.master.type == 'web'">
+			<label>Web server port</label>
+			<div class="form-group">
+				<input type="number" 
+				       ng-model="preferences.preferences.master.web_port" 
 				       class="form-control" />
 			</div>
 		</div>

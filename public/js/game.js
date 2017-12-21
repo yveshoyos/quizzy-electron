@@ -41,7 +41,9 @@
 					questions_directory: defaultQuestionsDir
 				},
 				master: {
-					port: 8082
+					type: 'websocket',
+					port: 8082,
+					web_port: 8083
 				},
 				buzzer: {
 					type: 'teensy',
@@ -99,8 +101,10 @@
 			}
 
 			this.initStartGame = function(startOrContinue) {
+				console.log('hehehe 2')
 				try {
 					if (this.isGame()) {
+						console.log('start ....', start)
 						start(this.preferences, startOrContinue);
 					}
 
@@ -113,6 +117,7 @@
 					}
 					ws = new WebSocket("ws://localhost:"+port);
 					ws.onopen = () => {
+						console.log('register...')
 						this.send('register', this.type)
 					}
 

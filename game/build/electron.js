@@ -1,7 +1,8 @@
 "use strict";
-const electron = require('electron');
-const path = require('path');
-const url = require('url');
+Object.defineProperty(exports, "__esModule", { value: true });
+const electron = require("electron");
+const path = require("path");
+const url = require("url");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
@@ -14,6 +15,7 @@ function createWindow() {
     }));
     mainWindow.homeDirectory = app.getPath('home');
     mainWindow.setPosition(0, 0);
+    mainWindow.webContents.openDevTools();
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
