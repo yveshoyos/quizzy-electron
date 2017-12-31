@@ -1,0 +1,6 @@
+<div ng-repeat="team in $ctrl.game.teams" 
+     class="{{team.id}}" 
+     ng-style="{ width: (team.points / $ctrl.totalPoints() * 100)+'%' }"
+     ng-class="{ inactive: !team.active }">
+	{{team.name}} : {{team.points}} points
+</div>

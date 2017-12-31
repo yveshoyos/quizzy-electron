@@ -1,0 +1,19 @@
+<div>
+	<header>
+		<a href="#" 
+		   ng-click="screen.openPreferences()" 
+		   ng-show="screen.game.isGame()">
+			<i class="fa fa-cog"></i>
+		</a>
+	</header>
+	<div class="body">
+		<img src="public/images/quizzy-{{screen.game.type}}.png" />
+		<button class="btn btn-success" 
+		        ng-click="screen.initStartGame('start')">Start <span ng-bind="screen.ui.type"></span>
+		</button>
+		<button class="btn btn-success" 
+		        ng-show="screen.canBeContinued() && screen.game.isGame()"
+		        ng-click="screen.initStartGame('continue')">Continue <span ng-bind="screen.ui.type"></span>
+		</button>
+	</div>
+</div>

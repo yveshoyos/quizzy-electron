@@ -1,0 +1,93 @@
+<teams game="$ctrl.game"></teams>
+
+<div class="question" ng-show="$ctrl.game.isGame()">
+	<h3>Theme : {{$ctrl.game.question.question.category}}</h3>
+	<div class="content">
+
+	</div>
+</div>
+
+<div class="question master" ng-show="$ctrl.game.isMaster()">
+	<div class="row result">
+		<div class="col-xs-6">
+			<h3>Theme : {{$ctrl.game.question.question.category}} ({{$ctrl.game.currentQuestionIndex+1}}/{{$ctrl.game.questionsCount}})</h3>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="">Artist :</label>
+					<div class="col-sm-9 form-control-static">{{$ctrl.game.question.question.author}}</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="">Title :</label>
+					<div class="col-sm-9 form-control-static">{{$ctrl.game.question.question.name}}</div>
+				</div>
+
+				<div class="form-group" ng-show="ui.question.year">
+					<label class="col-sm-3 control-label" for="">Year :</label>
+					<div class="col-sm-9 form-control-static">{{$ctrl.game.question.question.year}}</div>
+				</div>
+			</div>
+			<div class="" ng-show="ui.question.type == 'deaf'">
+				<img class="" ng-src="{{ui.question.file}}" />
+			</div>
+		</div>
+		<div class="col-xs-6">
+			<h3>Theme : {{$ctrl.game.nextQuestion.question.category}}</h3>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="">Artist :</label>
+					<div class="col-sm-9 form-control-static">{{$ctrl.game.nextQuestion.question.author}}</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-3 control-label" for="">Title :</label>
+					<div class="col-sm-9 form-control-static">{{$ctrl.game.nextQuestion.question.name}}</div>
+				</div>
+
+				<div class="form-group" ng-show="$ctrl.game.question.question.year">
+					<label class="col-sm-3 control-label" for="">Year :</label>
+					<div class="col-sm-9 form-control-static">{{$ctrl.game.nextQuestion.question.year}}</div>
+				</div>
+			</div>
+			<div class="" ng-show="$ctrl.game.nextQuestion.question.type == 'deaf'">
+				<img class="" ng-src="{{$ctrl.game.nextQuestion.question.file}}" />
+			</div>
+		</div>
+	</div>
+	<div class="row actions">
+		<div class="col-xs-3 text-center btn-container">
+			<button class="btn btn-default btn-point btn-danger" 
+			        ng-click="$ctrl.validateAnswer(-1, false)"
+			        ng-disabled="!$ctrl.game.answered">-1</button>
+		</div>
+		<div class="col-xs-3 text-center btn-container">
+			<button class="btn btn-default btn-point btn-warning" 
+			        ng-click="$ctrl.validateAnswer(0, false)"
+			        ng-disabled="!$ctrl.game.answered">0</button>
+		</div>
+		<div class="col-xs-3 text-center btn-container">
+			<button class="btn btn-default btn-point btn-primary" 
+			        ng-click="$ctrl.validateAnswer(1, true)"
+			        ng-disabled="!$ctrl.game.answered">+1</button>
+		</div>
+		<div class="col-xs-3 text-center btn-container">
+			<button class="btn btn-default btn-point btn-success" 
+			        ng-click="$ctrl.validateAnswer(2, true)"
+			        ng-disabled="!$ctrl.game.answered">+2</button>
+		</div>
+	</div>
+	<div class="row actions">
+		<div class="col-xs-4 btn-container">
+			<button class="btn btn-default btn-point btn-danger" 
+			        ng-click="$ctrl.resetTeams()">Reset teams</button>
+		</div>
+		<div class="col-xs-4 btn-container">
+			<button class="btn btn-default btn-point btn-danger" 
+			        ng-click="$ctrl.continueQuestion()">Continue question</button>
+		</div>
+		<div class="col-xs-4 btn-container">
+			<button class="btn btn-default btn-point btn-success" 
+			        ng-click="$ctrl.goNextQuestion()">Next question</button>
+		</div>
+	</div>
+</div>

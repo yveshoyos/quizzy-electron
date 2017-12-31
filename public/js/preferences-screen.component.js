@@ -1,18 +1,17 @@
-module.exports.preferencesComponent = {
+module.exports.preferencesScreenComponent = {
 	bindings: {
-		appPreferences: '=preferences',
 		onClose: '&',
-		show: '='
+		show: '=',
+		game: '='
 	},
 	controllerAs: 'preferences',	
 	controller: ['$scope', function(scope) {
 		
-
 		scope.$watch(() => {
 			return this.show
 		}, (show) => {
 			if (show) {
-				this.preferences = angular.copy(this.appPreferences) || {};
+				this.preferences = angular.copy(this.game.getPreferences()) || {};
 			}
 		});
 
@@ -25,10 +24,11 @@ module.exports.preferencesComponent = {
 		}
 
 		this.save = function() {
+			this.game.setPreferences(this.preferences);
 			this.onClose({
 				preferences: this.preferences
 			});
 		}
 	}],
-	templateUrl: 'public/template/preferences.html'
+	templateUrl: 'public/template/preferences-screen.html'
 };

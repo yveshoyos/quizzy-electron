@@ -70,7 +70,7 @@ angular.module('sounds', [])
 				}
 			} else {
 				for(var id in sound.ids) {
-					var play = sounds.ids[id];
+					var play = sound.ids[id];
 					if (play.timeout) {
 						clearTimeout(play.timeout);
 					} else {

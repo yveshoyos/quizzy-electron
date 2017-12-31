@@ -2,7 +2,9 @@ const electron = require('electron');
 const dialog = electron.remote.dialog;
 const path = require('path');
 const fs = require('fs-extra');
-const { camelCase, capitalize } = require('./string')
+const { camelCase, capitalize } = require('./string');
+
+const { Game } = require('./game.service');
 
 require('smalltalk/dist/smalltalk.min');
 
@@ -11,294 +13,110 @@ module.exports.uiComponent = {
 		type: '@'
 	},
 	controllerAs: 'ui',
-	controller: ['$scope', '$element', '$q', 'Sounds', function(scope, $element, $q, Sounds) {
-		console.log('game angular app : ', __dirname)
-		console.log('this', this.type)
-		var ui = this;
-		var ws = null;
+	controller: ['$scope', '$element', '$q', '$timeout', '$compile', 'Sounds', function(scope, $element, $q, $timeout, $compile, Sounds) {
+		let ui = this;
 
-		var homeDir = electron.remote.getCurrentWindow().homeDirectory;
-		var defaultQuestionsDir = homeDir+'/quizzy/questions'
-		if (!fs.exists(defaultQuestionsDir)) {
-			fs.mkdirs(defaultQuestionsDir)
-		}
-
-		this.screen = "starting";
-		this.preferences = {
-			game: {
-				port: 8081,
-				questions_directory: defaultQuestionsDir
-			},
-			master: {
-				type: 'websocket',
-				port: 8082,
-				web_port: 8083
-			},
-			buzzer: {
-				type: 'teensy',
-				port: 8083
-			}
-		}
-		this.devices = {
-			game: false,
-			master: false,
-			buzzer: false
-		}
-		this.activatedTeamsCount = 0;
-		this.barCtrl = null;
-		this.currentQuestionIndex = -1;
-
+		//
+		// Sounds
+		//
+		let howls = [];
 		ui.sounds = new Sounds(true);
 		ui.sounds.add('actors', __dirname + '/../sounds/Cinema_Sins_Background_Song.mp3');
 		ui.sounds.add('buzz', __dirname + '/../sounds/buzz.mp3');
 
-		var howls = [];
+		this.barCtrl = null;
+		this.game = new Game(this.type);
 
-		this.isGame = function() {
-			return this.type == 'game';
+
+
+		//
+		// Preferences
+		//
+		
+		this.preferencesClose = (preferences) => {
+			this.game.setScreen('starting');
 		}
 
-		this.isMaster = function() {
-			return this.type == 'master';
-		}
-
-		this.totalPoints = function() {
-			var points = 0;
-			angular.forEach(this.teams, function(team) {
-				points += team.points;
-			});
-			return points;
-		}
-
-		/**
-		 * Preferences
-		 */
-		this.openPreferences = function() {
-			this.screen = "preferences";
-		}
-
-		this.preferencesClose = function(preferences) {
-			if (preferences) {
-				this.preferences = preferences;
-			}
-			this.screen = 'starting';
-		}
-
-		this.canBeContinued = function() {
-			var file = path.join(this.preferences.game.questions_directory, 'game.json');
-			return fs.existsSync(file);
-		}
-
-		this.initStartGame = function(startOrContinue) {
-			console.log('hehehe 2')
-			try {
-				if (this.isGame()) {
-					console.log('start ....', start)
-					start(this.preferences, startOrContinue);
-				}
-
-				this.receiveScreen('devices', false);
-				//this.screen = 'devices';
-
-				var port = this.preferences.game.port;
-				if (this.isMaster()) {
-					port = this.preferences.master.port;
-				}
-				ws = new WebSocket("ws://localhost:"+port);
-				ws.onopen = () => {
-					console.log('register...')
-					this.send('register', this.type)
-				}
-
-				ws.onmessage = (event) => {
-					var data = JSON.parse(event.data)
-					console.log(this.type,' : ', data)
-
-					for(var property in data) {
-						if (data.hasOwnProperty(property)) {
-							var method = 'receive'+capitalize(camelCase(property));
-							this[method].call(this, data[property])
-						}
-					}
-				}
-
-				function showError() {
-					smalltalk.alert('No game server', 'The connection to the game server was lost ')
-					ui.receiveScreen('starting')
-					//dialog.showErrorBox('No Game Server', '')
-				}
-
-				ws.onerror = () => {
-					console.log('ws error')
-					showError();
-				}
-
-				ws.onclose = () => {
-					console.log('ws close')
-					showError();
-				}
-
-			} catch(e) {
-				if (e.name == 'BuzzerNotFoundError') {
-					dialog.showErrorBox('Buzzer not found', e.message)
-				}
-			}
-		}
-
-		this.setMode = function(mode) {
-			this.send('mode', mode)
-		}
-
-		this.startQuestions = function() {
-			this.send('start_questions', null)
-		}
-
-		this.validateAnswer = function(points) {
-			// Only the master is authorized to set the points
-			if (!this.isMaster()) {
-				return;
-			}
-
-			// Master can only set points when an answer is given
-			if (!this.answered) {
-				console.log('not answered')
-				return;
-			}
-
-			console.log('send points')
-			this.send('points', points)
-		}
-
-		this.continueQuestion = function() {
-			if (!this.isMaster()) {
-				return;
-			}
-			this.send('continue_question', this.currentQuestionIndex)
-		}
-
-		this.goNextQuestion = function() {
-			if (!this.isMaster()) {
-				return;
-			}
+		let actorsPlaying = false;
+		this.screen = 'starting';
+		this.game.addEventListener('devices', () => {
 			
-			if (this.currentQuestionIndex+1 < this.questions.length) {
-				this.send('start_question', this.currentQuestionIndex+1)
-			} else {
-				this.send('finish_game', null)
+			//digest = angular.isDefined(digest) ? digest : true;
+			if (this.game.isGame() && !actorsPlaying) {	
+				//this.sounds.stop('actors');
+				actorsPlaying = true;
+				this.turnOffSounds().then(() => {
+					this.sounds.play('actors');
+				});
 			}
-		}
+			this.screen = 'devices';
 
-		this.initFinishGame = function() {
-			alert('finished !!!')
-		}
+			$timeout(() => scope.$digest());
+		});
 
-		this.send = function(key, value) {
-			var data = {}
-			data[key] = value
-			ws.send(JSON.stringify(data))
-		}
+		this.game.addEventListener('mode', () => {
+			$timeout(() => scope.$digest());
+		})
+
+		this.game.addEventListener('team', () => {
+			if (this.game.isGame() && this.game.getScreen() == 'team-activation') {
+				this.sounds.play('buzz');
+			}
+			$timeout(() => scope.$digest());
+		})
+
+		this.game.addEventListener('start', () => {
+			this.sounds.fade('actors', 1000);
+			actorsPlaying = false;
+			$timeout(() => scope.$digest());
+		});
+
+		this.game.addEventListener('question', () => {
+			$timeout(() => scope.$digest());
+		})
+
+		this.game.addEventListener('answered', () => {
+			this.sounds.play('buzz');
+		})
+		
+
+		this.game.addEventListener('EOG', () => {
+			$timeout(() => scope.$digest());
+			this.turnOffSounds();
+		})
 
 		this.turnOffSounds = function() {
 			var deferred = $q.defer();
 			//this.sounds.fade('actors', 1000);
-			if (this.currentQuestionIndex > -1) {
+			if (this.game.question) {
+				
 				var self = this;
-				howls[this.currentQuestionIndex].on('fade', function onfade() {
+				if (this.game.isGame()) {
+					this.game.question.ctrl.unload();
+				}
+				deferred.resolve();
+
+				/*howls[this.game.currentQuestionIndex].on('fade', function onfade() {
 					howls[self.currentQuestionIndex].stop();
 					howls[self.currentQuestionIndex].off('fade', onfade);
 					deferred.resolve();
 					scope.$digest()
 				});
-				howls[this.currentQuestionIndex].fade(1, 0, 1000);
+				howls[this.currentQuestionIndex].fade(1, 0, 1000);*/
 			} else {
 				deferred.resolve();
 
 			}
 			return deferred.promise;
-		}
+		};
 
-		this.receiveDevices = function(devices) {
-			this.devices = devices
-			scope.$digest();
-		}
 
-		this.receiveScreen = function(screen, digest) {
-			var digest = angular.isDefined(digest) ? digest : true;
+		/// old
 
-			this.screen = screen;
-			if (this.screen == 'devices') {
-				if (this.isGame()) {
-					//console.log('ici')
-					this.turnOffSounds().then(() => {
-						console.log('playy!!! ')
-						this.sounds.play('actors');
-					});
-				}
-			}
 
-			if (digest) {
-				scope.$digest();
-			}
-			
-		}
-
-		this.receiveMode = function(mode) {
-			this.mode = mode;
-			setTimeout(() => {
-				this.send('mode_ok', 1)
-				scope.$digest();
-			}, 400);
-		}
-
-		this.receiveTeams = function(teams) {
-			this.teams = teams;
-			this.activatedTeamsCount = this.teams.filter(function(team) {
-				return team.active
-			}).length;
-			scope.$digest();
-		}
-
-		this.findTeamIndex = function(team) {
-			for(var i=0; i < this.teams.length; i++) {
-				if (this.teams[i].id ==team.id) {
-					return i;
-				}
-			}
-			return -1;
-		}
-
-		this.receiveTeam = function(team) {
-			var index = this.findTeamIndex(team)
-			this.teams[index] = team;
-			if (this.isGame() && team.lightOn) {
-				this.sounds.play('buzz')
-			}
-
-			this.activatedTeamsCount = this.teams.filter(function(_team) {
-				return _team.active
-			}).length;
-
-			scope.$digest();
-		}
-
-		this.changeTeamName = function(team, index) {
-			//var name = prompt('Enter team name : ');
-			smalltalk.prompt('Set team name', 'Enter team name : ', team.name).then((name) => {
-				this.send('team_name', {
-					index: index,
-					name: name
-				});
-			})
-		}
-
-		this.receiveQuestions = function(data) {
-			this.sounds.fade('actors', 1000);
-			this.questions = data.questions;
-			this.currentQuestionIndex = data.startQuestionIndex;
-
-			if (this.isGame()) {
-				this.startQuestion((this.currentQuestionIndex == -1) ? 0 : this.currentQuestionIndex);
-			}
+		
+		this.initFinishGame = function() {
+			alert('finished !!!')
 		}
 
 		this.preloadQuestion = function(index) {
@@ -385,28 +203,6 @@ module.exports.uiComponent = {
 			}
 		}
 
-		this.receiveAnswered = function(data) {
-			// Only the game plays the songs
-			if (this.isGame()) {
-				// Pauses the music
-				if (this.questions[this.currentQuestionIndex]) {
-					howls[this.currentQuestionIndex].pause();
-				}
-			}
-
-			// Play the buzz
-			//this.sounds.play('buzz');
-
-			this.start = false;
-			this.answered = true;
-
-			this.barCtrl.pause();
-			// 
-			scope.$digest();
-		}
-
-
-
 	}],
-	templateUrl: 'public/template/game.html'
+	templateUrl: 'public/template/ui.component.html'
 }

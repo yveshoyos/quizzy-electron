@@ -1,0 +1,30 @@
+
+<starting-screen ng-show="ui.game.getScreen() == 'starting'"
+                 game="ui.game"
+                 ui="ui"
+                 preferences="ui.preferences"
+                 ws="ws"></starting-screen>
+
+<preferences-screen preferences="ui.preferences" 
+             game="ui.game"
+             ng-show="ui.game.getScreen() == 'preferences'" 
+             show="ui.game.getScreen() == 'preferences'" 
+             on-close="ui.preferencesClose(preferences)">
+</preferences-screen> 
+
+<devices-screen game="ui.game"
+                ng-show="ui.game.getScreen() == 'devices'"></devices-screen>
+
+<mode-screen game="ui.game"
+             ng-show="ui.game.getScreen() == 'mode-select'"></mode-screen>
+
+<team-activation-screen game="ui.game"
+                        ng-show="ui.game.getScreen() == 'team-activation'">
+</team-activation-screen>
+
+<question-screen game="ui.game"
+                 ng-show="ui.game.getScreen() == 'question'">
+</question-screen>
+
+<scores-screen game="ui.game" ng-show="ui.game.getScreen() == 'scores'">
+</scores-screen>

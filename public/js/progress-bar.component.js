@@ -3,7 +3,6 @@ module.exports.progressBarComponent = {
 		controller: '='
 	},
 	controller: ['$element', function($element) {
-		console.log('ok... : ', $element[0].querySelector('.progress-bar'))
 		var bar = $element[0].querySelector('.progress-bar');
 
 		this.reset = function() {

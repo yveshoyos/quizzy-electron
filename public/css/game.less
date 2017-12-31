@@ -47,7 +47,7 @@ a {
 	color: #ddd;
 }
 
-preferences .btn-default  {
+preferences-screen .btn-default  {
 	background-color: #484848;
 	border: 1px solid #616161;
 	color: #ddd;
@@ -58,7 +58,7 @@ preferences .btn-default  {
 	padding: 0;
 }
 
-.starting-screen {
+starting-screen {
 	width: 100%;
 	height: 100%;
 	.display-flex();
@@ -71,7 +71,7 @@ preferences .btn-default  {
 		font-size: 20px;
 	}
 
-	& > div {
+	div.body {
 		flex: 1;
 		.display-flex();
 		.flex-direction(column);
@@ -94,7 +94,7 @@ preferences .btn-default  {
 	}
 }
 
-.preference-screen {
+preferences-screen {
 	width: 100%;
 	height: 100%;
 
@@ -106,14 +106,14 @@ preferences .btn-default  {
 		width: 100px;
 	}
 
-	preferences {
+	& > div {
 		width: 100%;
 		height: 100%;
 		.display-flex();
 		.flex-direction(column);
 	}
 
-	& > div {
+	& > div > div {
 		flex: 1;
 	}
 
@@ -135,7 +135,7 @@ preferences .btn-default  {
 	}
 }
 
-.devices-screen {
+devices-screen {
 	width: 100%;
 	height: 100%;
 	.display-flex();
@@ -143,7 +143,7 @@ preferences .btn-default  {
 	.align-items(center);
 	.justify-content(center);
 
-	devices {
+	& > div {
 		width: 100%;
 		.display-flex();
 		.flex-direction(row);
@@ -166,10 +166,12 @@ preferences .btn-default  {
 		    width: 50%;
 		    stroke: none;
 
-		    path, polygon {
+		    path, polygon, polygon.st0 {
 		        fill: #3b3e44;
 		        stroke: none;
 		    }
+
+
 		   
 		    &.active {
 		        path, polygon {
@@ -186,7 +188,7 @@ preferences .btn-default  {
 	}
 }
 
-.mode-select-screen {
+mode-screen {
 	width: 100%;
 	height: 100%;
 	.display-flex();
@@ -218,7 +220,9 @@ preferences .btn-default  {
 	}
 }
 
-.team-activation-screen {
+team-activation-screen {
+	width: 100%;
+	height: 100%;
 	flex: 1;
 	.display-flex();
 	.flex-direction(column);
@@ -234,10 +238,19 @@ preferences .btn-default  {
 		padding: 20px;
 		margin: 20px;
 	}
+
+	.team-activation-screen {
+		flex: 1;
+		.display-flex();
+		.flex-direction(column);
+		//.align-items(center);
+		.justify-content(center);
+	}
 }
 
-.questions-screen {
+question-screen {
 	padding: 20px;
+	height: 100%;
 	flex: 1;
 	.display-flex();
 	.flex-direction(column);
@@ -246,6 +259,7 @@ preferences .btn-default  {
 		flex: 1;
 		.display-flex();
 		.flex-direction(column);
+	    padding: 20px;
 
 		img.img-responsive {
 			max-height: calc(~"100vh - 330px");
@@ -282,7 +296,7 @@ preferences .btn-default  {
 	.flex-direction(column);
 }
 
-.teams {
+teams {
 	.display-flex();
 
 	.team {
@@ -365,7 +379,8 @@ preferences .btn-default  {
 		}
 	}
 
-	.widget-xs.inactive {
+	.widget-xs.inactive,
+	.widget-xs:not(.active).already-answered {
 	    opacity: 0.2;
 	}
 
@@ -424,7 +439,7 @@ preferences .btn-default  {
 @grey: #eee;
 @grey-light: #fff;
 
-.scores-screen {
+scores-screen {
 	width: 100%;
 	height: 100%;
 	.display-flex();

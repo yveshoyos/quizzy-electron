@@ -1,0 +1,21 @@
+
+	<div class="team" 
+	     ng-repeat="team in $ctrl.game.teams"
+	     ng-show="$ctrl.game.getScreen() == 'team-activation' || team.active">
+		<section class="widget widget-xs widget-xs-{{team.id}}" 
+		         ng-class="{ active: team.lightOn, flash: team.flash, inactive: !team.active, 'already-answered': team.answered  }"
+		         ng-click="$ctrl.changeTeamName(team, $index)">
+			<div class="widget-inner">
+				<div class="chart-container">
+					<span class="sparkline-line-mini">
+						<img ng-src="public/images/iconmonstr-generation-{{team.id}}.svg" />	
+					</span>
+				</div>
+				<div class="info-container">
+					<h3 class="title">
+						<span class="figure">{{team.name}}</span>
+						<span class="note">{{team.points}} points</span></h3>
+				</div>
+			</div>
+		</section>
+	</div>

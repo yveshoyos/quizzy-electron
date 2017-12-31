@@ -1,0 +1,13 @@
+<teams game="$ctrl.game"></teams>
+
+<div class="team-activation-screen">
+	<h1 class="action" ng-show="$ctrl.game.isGame()">
+		Push on your buzzer to activate it
+	</h1>
+	<button class="btn btn-success" 
+	        ng-show="$ctrl.game.isMaster()" 
+	        ng-click="$ctrl.startQuestions()"
+	        ng-disabled="$ctrl.game.activatedTeamsCount == 0">
+		Démarrer les questions
+	</button>
+</div>
