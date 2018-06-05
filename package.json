@@ -5,7 +5,7 @@
   "author": "Vincent Dieltiens",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vincentdieltiens/quizzy-game"
+    "url": "https://github.com/yveshoyos/quizzy-electron"
   },
   "dependencies": {
     "angular": "^1.5.8",
@@ -14,7 +14,7 @@
     "fs-extra": "^1.0.0",
     "howler": "^2.0.2",
     "path": "^0.12.7",
-    "quizzy": "https://github.com/vincentdieltiens/quizzy.git#electron",
+    "quizzy": "https://github.com/yveshoyos/quizzy.git#electron",
     "url": "^0.11.0"
   },
   "scripts": {
